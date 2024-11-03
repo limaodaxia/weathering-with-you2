@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipeRefresh">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:id="@+id/weatherLayout"
+        android:overScrollMode="never"
+        android:visibility="invisible">
+        <!--scrollbars指定有没有滑动条,overScrollMode指定滑动到边缘的效果-->
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/now"
+                android:id="@+id/nowTop"/>
+
+            <include layout="@layout/now_detail"
+                android:id="@+id/nowDetail"/>
+
+            <!--  这个生活小提示功能转换成朱强了 <include layout="@layout/life_tip"/>-->
+
+            <include layout="@layout/forecast"
+                android:id="@+id/forecast"/>
+
+            <include layout="@layout/life_index"
+                android:id="@+id/lifeIndex"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
