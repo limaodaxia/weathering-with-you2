@@ -1,6 +1,7 @@
 package com.example.weatheringwy2.ui.place
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheringwy2.MainActivity
 import com.example.weatheringwy2.R
 import com.example.weatheringwy2.databinding.ActivityMainBinding
+import com.example.weatheringwy2.databinding.PlaceItemBinding
 import com.example.weatheringwy2.logic.Repository
 import com.example.weatheringwy2.logic.model.Place
 import com.example.weatheringwy2.ui.weather.WeatherActivity
@@ -17,21 +19,24 @@ import com.example.weatheringwy2.ui.weather.WeatherActivity
 
 class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: List<Place>):RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: PlaceItemBinding
 
-    inner class ViewHolder(view:View):RecyclerView.ViewHolder(view){
-        val placeName :TextView= view.findViewById(R.id.placeName)
-        val placeAddress :TextView= view.findViewById(R.id.placeAddress)
-        val addBtn :Button = view.findViewById(R.id.itemBtn)
+    inner class ViewHolder(binding:PlaceItemBinding):RecyclerView.ViewHolder(binding.root){
+        val placeName :TextView= binding.placeName
+        val placeAddress :TextView= binding.placeAddress
+        val addBtn :Button = binding.itemBtn
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.place_item,parent,false)
-        val holder = ViewHolder(view)
+        // fragment.activity==parent.context
+
+        binding = PlaceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = ViewHolder(binding)
         val activity = fragment.activity
+        // 第一次的时候不显示添加按钮
         if (activity is MainActivity){
             holder.addBtn.visibility = View.GONE
-            view.setOnClickListener {
+            holder.itemView.setOnClickListener {
                 val position = holder.adapterPosition
                 val place = placeList[position]
                 val intent = Intent(parent.context, WeatherActivity::class.java)
@@ -45,20 +50,7 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
             }
 
         }else{//SearchActivity
-            if (viewType==1){
-                holder.addBtn.isClickable = false
-                holder.addBtn.text = "已添加"
-            }else{
-                holder.addBtn.text = "添加"
-                holder.addBtn.setOnClickListener {
-                    val position = holder.adapterPosition
-                    val place = placeList[position]
-                    Repository.insertMyPlace(place)
-                    holder.addBtn.isClickable = false
-                    holder.addBtn.text = "已添加"
-                }
 
-            }
         }
         return holder
     }
@@ -67,6 +59,22 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
         val place = placeList[position]
         holder.placeName.text = place.name
         holder.placeAddress.text = place.address
+
+        val exist = Repository.isContainPlace(placeList[position].id)==1
+        if (exist){
+            holder.addBtn.isClickable = false
+            holder.addBtn.text = "已添加"
+            Log.d("test", "name${holder.placeName.text}")
+        }else{
+            holder.addBtn.text = "添加"
+            holder.addBtn.setOnClickListener {
+                Repository.insertMyPlace(place)
+                holder.addBtn.isClickable = false
+                holder.addBtn.text = "已添加"
+            }
+
+        }
+
     }
 
     override fun getItemCount() = placeList.size
