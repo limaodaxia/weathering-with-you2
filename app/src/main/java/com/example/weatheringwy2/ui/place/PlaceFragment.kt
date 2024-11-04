@@ -39,10 +39,10 @@ class PlaceFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if( activity is MainActivity && viewModel.isPlaceSaved()){
-            val place = viewModel.getSavedPlace()
+        if( activity is MainActivity && viewModel.isSharedPreferencesPlaceSaved()){
+            val place = viewModel.getSharedPreferencesPlace()
             Log.d("test", place.toString());
-            //这里把我们村的place传送过去，要保证数据库中有他，同时也要保证删除的时候不能删除当前显示的
+            //这里把我们存的place传送过去，要保证数据库中有他，同时也要保证删除的时候不能删除当前显示的
             val intent = Intent(context, WeatherActivity::class.java).apply {
                 putExtra("place_data",place)
             }

@@ -62,7 +62,7 @@ class WeatherActivity : AppCompatActivity() {
         //页面切换时候执行的逻辑，主要是保存一下页面作为当前页面，此外
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                viewModel.savePlace(adapter.placeFragmentList[position].place)
+                viewModel.saveSharedPreferencesPlace(adapter.placeFragmentList[position].place)
                 //这种方法用不了，我猜测是因为此时fragment还没创建好
 
                 //这样通知我的常用列表，数据变了，重新修改每一项的内容，把原来不是当前页的变为当前页

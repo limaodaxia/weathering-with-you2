@@ -34,7 +34,7 @@ class MyPlaceAdapter (private val fragment: MyPlaceFragment, private val myPlace
             activity.changePage(position)
 
             //这里是要转换成我们的fragment的原因，因为我们的fragment中有ViewModel
-            fragment.viewModel.savePlace(place)//保存我们新的地址到数据
+            fragment.viewModel.saveSharedPreferencesPlace(place)//保存我们新的地址到数据
         }
         return holder
     }
@@ -45,7 +45,7 @@ class MyPlaceAdapter (private val fragment: MyPlaceFragment, private val myPlace
         holder.placeAddress.text = place.address
         holder.placeName.text = place.name
         //如果当前页是我们加入的那一页，我们就
-        if (fragment.viewModel.getSavedPlace().id == place.id){
+        if (fragment.viewModel.getSharedPreferencesPlace().id == place.id){
             holder.removeBtn.setTextColor(Color.GRAY)
             holder.removeBtn.text = "当前页"
             holder.removeBtn.isClickable = false

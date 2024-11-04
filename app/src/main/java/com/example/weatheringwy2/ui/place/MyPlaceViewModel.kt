@@ -11,9 +11,9 @@ class MyPlaceViewModel:ViewModel() {
 
     val myPlaceList = ArrayList<Place>()
 
-    fun savePlace(place: Place) = Repository.savePlace(place)
+    fun saveSharedPreferencesPlace(place: Place) = Repository.saveSharedPreferencesPlace(place)
 
-    fun getSavedPlace() = Repository.getSavedPlace()
+    fun getSharedPreferencesPlace() = Repository.getSharedPreferencesPlace()
 
     private val refreshLiveData = MutableLiveData<Any?>()
 
