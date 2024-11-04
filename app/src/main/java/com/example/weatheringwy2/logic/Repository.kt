@@ -61,6 +61,10 @@ object Repository {
 
         if (placeResponse.status == "ok"){
             val places = placeResponse.places
+            places.forEach {
+
+                it.name = it.name.split(" ").last()
+            }
             Result.success(places)
             
         }else{
@@ -86,14 +90,14 @@ object Repository {
             val realtimeResponse = deferredRealtime.await()
             val dailyResponse = deferredDaily.await()
             val minutelyResponse = deferredMinutelyRainfall.await()
-            Log.d("testa", "${minutelyResponse} ${Thread.currentThread().id}")
+            Log.d("test", "${minutelyResponse} ${Thread.currentThread().id}")
 
             if(realtimeResponse.status == "ok" && dailyResponse.status == "ok" &&
                 minutelyResponse.status == "ok"){
-                Log.d("testa","3 response is ok ${Thread.currentThread().id}")
+                Log.d("test","3 response is ok ${Thread.currentThread().id}")
                 val weather = Weather(dailyResponse.result.realtime,
                     realtimeResponse.result.daily,minutelyResponse.result)
-                Log.d("testa",weather.toString())
+                Log.d("test",weather.toString())
                 Result.success(weather)
             }else{
                 Result.failure(

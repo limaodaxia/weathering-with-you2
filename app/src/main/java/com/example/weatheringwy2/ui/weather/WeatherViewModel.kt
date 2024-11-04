@@ -24,7 +24,7 @@ class WeatherViewModel:ViewModel() {
     val weatherLiveData /**/ = locationLiveData.switchMap{
         location ->
             val t = Repository.refreshWeather(location.lng,location.lat)
-            Log.d("testa", "${t.value}${Thread.currentThread().id}")
+            Log.d("test", "${t.value}${Thread.currentThread().id}")
             t
     }
 

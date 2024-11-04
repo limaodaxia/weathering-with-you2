@@ -10,7 +10,7 @@ import java.io.Serializable
 data class PlaceResponse(val status:String, val places:List<Place>)
 
 @Entity
-data class Place(val name:String, @Embedded val location: Location, @PrimaryKey val id:String,
+data class Place(var name:String, @Embedded val location: Location, @PrimaryKey val id:String,
                  @SerializedName("formatted_address")/*这个能把json字段与kotlin字段建立映射,以便我们的转换*/ val address:String)
     :Serializable
 data class Location(val lng:String, val lat:String):Serializable
