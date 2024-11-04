@@ -41,15 +41,15 @@ class WeatherActivity : AppCompatActivity() {
         binding.viewPager.offscreenPageLimit = 1
 
         //观察数据库中的所有元素，如果变化了，我们对应更改我们的Fragment，实际上这里存在一些问题，就是增删与我们的实际情况不符
-        viewModel.refreshResult.observe(this, Observer { places ->
+        viewModel.refreshResult.observe(this) { places ->
             viewModel.myPlaceList.clear()
             viewModel.myPlaceList.addAll(places)
             placeFragmentList.clear()
-            for (place in places){
-                placeFragmentList.add(WeatherFragment(place,this))
+            for (place in places) {
+                placeFragmentList.add(WeatherFragment(place, this))
             }
             adapter.notifyDataSetChanged()
-        })
+        }
 
         //刷新一下，让myPlaceList中有数据,进而更新各个fragment
         viewModel.refresh()

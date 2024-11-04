@@ -41,7 +41,7 @@ class PlaceFragment: Fragment() {
 
         if( activity is MainActivity && viewModel.isSharedPreferencesPlaceSaved()){
             val place = viewModel.getSharedPreferencesPlace()
-            Log.d("test", place.toString());
+            Log.d("test", place.toString())
             //这里把我们存的place传送过去，要保证数据库中有他，同时也要保证删除的时候不能删除当前显示的
             val intent = Intent(context, WeatherActivity::class.java).apply {
                 putExtra("place_data",place)
@@ -70,18 +70,18 @@ class PlaceFragment: Fragment() {
         }
 
         /*observe里用placeLiveData的Result<List<Place>>*/
-        viewModel.placeLiveData.observe(viewLifecycleOwner, Observer { result->
+        viewModel.placeLiveData.observe(viewLifecycleOwner) { result ->
             val places = result.getOrNull()
-            if (places != null){
+            if (places != null) {
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.bgImageView.visibility = View.GONE
                 viewModel.placeList.clear()
                 viewModel.placeList.addAll(places)
                 adapter.notifyDataSetChanged()
-            }else{
-                Toast.makeText(activity,"未能查询到任何地点",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-        })
+        }
     }
 }
