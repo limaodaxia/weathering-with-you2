@@ -20,7 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_gravity="start"
-        android:background="@color/design_default_color_primary">
+        android:background="@color/colorPrimary">
 
         <fragment
             android:name="com.example.weatheringwy2.ui.place.MyPlaceFragment"

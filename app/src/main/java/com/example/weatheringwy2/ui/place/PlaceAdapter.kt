@@ -36,7 +36,7 @@ class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: L
                 val place = placeList[position]
                 val intent = Intent(parent.context, WeatherActivity::class.java)
                 Repository.insertMyPlace(place)
-                fragment.viewModel.savePlace(place)
+                fragment.viewModel.saveSharedPreferencesPlace(place)
                 //原来我们之前创建的参数这里用到了
                 fragment.startActivity(intent)
 //               fragment.activity?.finish()//这里把mainActivity关掉了，同时fragment也没了

@@ -46,11 +46,11 @@ object Repository {
     }
 
     //sharedPreference
-    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+    fun saveSharedPreferencesPlace(place: Place) = PlaceDao.saveSharedPreferencesPlace(place)
 
-    fun getSavedPlace() = PlaceDao.getSavedPlace()
+    fun getSharedPreferencesPlace() = PlaceDao.getSharedPreferencesPlace()
 
-    fun isPlaceSaved() = PlaceDao.isPlaceSaved()
+    fun isSharedPreferencesPlaceSaved() = PlaceDao.isSharedPreferencesPlaceSaved()
 
 
 
@@ -86,11 +86,11 @@ object Repository {
             val realtimeResponse = deferredRealtime.await()
             val dailyResponse = deferredDaily.await()
             val minutelyResponse = deferredMinutelyRainfall.await()
-            Log.d("testa", "${minutelyResponse.toString()}")
+            Log.d("testa", "${minutelyResponse} ${Thread.currentThread().id}")
 
             if(realtimeResponse.status == "ok" && dailyResponse.status == "ok" &&
                 minutelyResponse.status == "ok"){
-                Log.d("testa","3 response is ok")
+                Log.d("testa","3 response is ok ${Thread.currentThread().id}")
                 val weather = Weather(dailyResponse.result.realtime,
                     realtimeResponse.result.daily,minutelyResponse.result)
                 Log.d("testa",weather.toString())
@@ -108,7 +108,7 @@ object Repository {
         }
     }
 
-    private fun <T> fire(context:CoroutineContext, block:suspend ()->Result<T>) = liveData<Result<T>> {
+    private fun <T> fire(context:CoroutineContext, block:suspend ()->Result<T>) = liveData<Result<T>>(context) {
         val result=try {
             block()
         }catch (e:Exception){

@@ -75,15 +75,12 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
         }
 
         //设置一下刷新的颜色
-        binding.swipeRefresh.setColorSchemeResources(com.google.android.material.R.color.design_default_color_primary)
+        binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
 
         //当我们做出刷新手势的时候去执行刷新操作
         binding.swipeRefresh.setOnRefreshListener {
             refreshWeather()
         }
-
-        //刷新一下获取结果
-        getInfo()
 
         //onTouch lambda should call view#performclick when a click is detected
         //设置刷新的时候,无法滑动viewpager
@@ -105,6 +102,9 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
             activity.openDrawer() //打开我们左边的菜单
         }
 
+        //所有都设置完了智慧，获取结果
+        getInfo()
+
     }
 
     //从网络接口获取信息，本质上是去通知一下location(改了,实际上没改)，然后进而去网上请求一下接口，转换成可观察的weather
@@ -112,6 +112,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
     }
 
+    // 这里想在刷新的同时展示一下tip
     private fun getInfoWithToast(){
         isToast = true
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)

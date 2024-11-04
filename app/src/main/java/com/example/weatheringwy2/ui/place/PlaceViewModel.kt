@@ -9,11 +9,11 @@ import com.example.weatheringwy2.logic.model.Place
 class PlaceViewModel:ViewModel() {
     private val searchLiveData = MutableLiveData<String>()
 
-    fun savePlace(place: Place) = Repository.savePlace(place)
+    fun saveSharedPreferencesPlace(place: Place) = Repository.saveSharedPreferencesPlace(place)
 
-    fun getSavedPlace() = Repository.getSavedPlace()
+    fun getSharedPreferencesPlace() = Repository.getSharedPreferencesPlace()
 
-    fun isPlaceSaved() = Repository.isPlaceSaved()
+    fun isSharedPreferencesPlaceSaved() = Repository.isSharedPreferencesPlaceSaved()
 
     val placeList = ArrayList<Place>()
 

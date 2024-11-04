@@ -65,7 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/windLevel"
@@ -95,7 +95,7 @@
                 android:id="@+id/pressure"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:text="998hPa"
                 android:textSize="20sp"
                 android:textColor="?android:attr/textColorPrimary"/>
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:text="气压"/>
         </LinearLayout>
     </LinearLayout>
