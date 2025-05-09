@@ -8,7 +8,7 @@ import com.example.weatheringwy2.logic.dao.PlaceDao
 import com.example.weatheringwy2.logic.model.Place
 
 //Room框架创建的数据库
-@Database(version = 1,entities = [Place::class])
+@Database(version = 1,entities = [Place::class], exportSchema = false)
 abstract class MyPlaceDatabase:RoomDatabase(){
 
     abstract fun placeDao(): PlaceDao
