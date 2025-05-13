@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatheringwy2.R
 import com.example.weatheringwy2.databinding.ActivityMainBinding
 import com.example.weatheringwy2.databinding.FragmentMyPlaceBinding
+import com.example.weatheringwy2.ui.weather.WeatherActivity
 
 
 class MyPlaceFragment:Fragment() {
@@ -53,6 +54,8 @@ class MyPlaceFragment:Fragment() {
                 viewModel.myPlaceList.clear()
                 viewModel.myPlaceList.addAll(places)
                 adapter.notifyDataSetChanged()
+                val c = activity as WeatherActivity
+                c.viewModel.refresh()
             }
         })
     }
