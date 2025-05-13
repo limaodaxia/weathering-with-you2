@@ -40,8 +40,8 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         //看看当前这个ViewModel有没有东西，如果没有
 
         viewModel.locationLng = place.location.lng

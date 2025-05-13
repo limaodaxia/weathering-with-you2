@@ -34,9 +34,8 @@ class MyPlaceFragment:Fragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager = layoutManager
         adapter = MyPlaceAdapter(this,viewModel.myPlaceList)
@@ -56,6 +55,5 @@ class MyPlaceFragment:Fragment() {
                 adapter.notifyDataSetChanged()
             }
         })
-
     }
 }
