@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
 
-class WeatherFragment(val place: Place, private val activity: WeatherActivity):Fragment() {
+class WeatherFragment(val place: Place):Fragment() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
 
@@ -35,7 +35,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWeatherBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -44,6 +44,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
         super.onViewCreated(view, savedInstanceState)
         //看看当前这个ViewModel有没有东西，如果没有
 
+        val weatherActivity = activity as WeatherActivity
         viewModel.locationLng = place.location.lng
         viewModel.locationLat = place.location.lat
         viewModel.placeName = place.name
@@ -70,7 +71,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
                 //result.exceptionOrNull()?.printStackTrace()
             }
             binding.swipeRefresh.isRefreshing = false
-            activity.changeUserInputEnabled(true)
+            weatherActivity.changeUserInputEnabled(true)
 
         }
 
@@ -85,7 +86,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
         //onTouch lambda should call view#performclick when a click is detected
         //设置刷新的时候,无法滑动viewpager
         binding.swipeRefresh.setOnTouchListener { v, event ->
-            activity.changeUserInputEnabled(false)
+            weatherActivity.changeUserInputEnabled(false)
             false
             //这里不能返回true
             //当return返回值为true的时候，代表这个事件已经消耗完了，返回值为false的时候他还会继续传递
@@ -99,7 +100,7 @@ class WeatherFragment(val place: Place, private val activity: WeatherActivity):F
 
         //设置导航栏上面的按钮
         binding.nowTop.navBtn.setOnClickListener {
-            activity.openDrawer() //打开我们左边的菜单
+            weatherActivity.openDrawer() //打开我们左边的菜单
         }
 
         //所有都设置完了智慧，获取结果
