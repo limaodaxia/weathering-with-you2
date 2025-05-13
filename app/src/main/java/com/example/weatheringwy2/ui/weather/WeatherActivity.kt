@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatheringwy2.ui.place.MyPlaceViewModel
@@ -36,7 +35,7 @@ class WeatherActivity : AppCompatActivity() {
 
         //给ViewPager需要的一些东西初始化
         val placeFragmentList = ArrayList<WeatherFragment>()
-        val adapter = ViewPagerFragmentAdapter(placeFragmentList,this)
+        val adapter = PlaceFragmentViewPager2Adapter(placeFragmentList,this)
         binding.viewPager.adapter = adapter
         binding.viewPager.offscreenPageLimit = 1
 

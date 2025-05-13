@@ -9,15 +9,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheringwy2.MainActivity
-import com.example.weatheringwy2.R
-import com.example.weatheringwy2.databinding.ActivityMainBinding
 import com.example.weatheringwy2.databinding.PlaceItemBinding
 import com.example.weatheringwy2.logic.Repository
 import com.example.weatheringwy2.logic.model.Place
 import com.example.weatheringwy2.ui.weather.WeatherActivity
 
 
-class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: List<Place>):RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
+class SearchPlaceAdapter(private val fragment: SearchPlaceFragment, private val placeList: List<Place>):RecyclerView.Adapter<SearchPlaceAdapter.ViewHolder>() {
 
     private lateinit var binding: PlaceItemBinding
 

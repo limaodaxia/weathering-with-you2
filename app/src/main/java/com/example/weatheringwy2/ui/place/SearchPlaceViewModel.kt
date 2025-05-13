@@ -6,7 +6,7 @@ import androidx.lifecycle.switchMap
 import com.example.weatheringwy2.logic.Repository
 import com.example.weatheringwy2.logic.model.Place
 
-class PlaceViewModel:ViewModel() {
+class SearchPlaceViewModel:ViewModel() {
     private val searchLiveData = MutableLiveData<String>()
 
     fun saveSharedPreferencesPlace(place: Place) = Repository.saveSharedPreferencesPlace(place)
