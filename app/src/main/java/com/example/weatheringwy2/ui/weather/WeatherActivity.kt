@@ -5,7 +5,10 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
+import androidx.activity.enableEdgeToEdge
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatheringwy2.ui.place.MyPlaceViewModel
@@ -27,11 +30,23 @@ class WeatherActivity : AppCompatActivity() {
         binding = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //让状态栏透明
-        val decorView = window.decorView
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window.statusBarColor = Color.TRANSPARENT
+//        // 实现沉浸式布局1
+//        val decorView = window.decorView
+//        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE // 让系统的Activity延展到状态栏，但这时状态栏应该还是盖住了activity
+        window.statusBarColor = Color.TRANSPARENT // 让状态栏透明
+        // 还需要让xml设置android:fitsSystemWindows="true"，让页面往下padding一点
+        enableEdgeToEdge(); // 实现沉浸式布局2
+//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(
+//                systemBars.left,
+//                systemBars.top,
+//                systemBars.right,
+//                systemBars.bottom
+//            )
+//            insets
+//        }
 
         //给ViewPager需要的一些东西初始化
         val placeFragmentList = ArrayList<WeatherFragment>()
