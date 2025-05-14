@@ -49,14 +49,14 @@ class WeatherActivity : AppCompatActivity() {
 //        }
 
         //给ViewPager需要的一些东西初始化
-        val placeFragmentList = ArrayList<Place>()
-        weatherFragmentViewPager2Adapter = WeatherFragmentViewPager2Adapter(placeFragmentList,this)
+        val placeList = ArrayList<Place>()
+        weatherFragmentViewPager2Adapter = WeatherFragmentViewPager2Adapter(placeList,this)
         binding.viewPager.adapter = weatherFragmentViewPager2Adapter
         binding.viewPager.offscreenPageLimit = 1
 
         //观察数据库中的所有元素，如果变化了，我们对应更改我们的Fragment，实际上这里存在一些问题，就是增删与我们的实际情况不符
         viewModel.refreshResult.observe(this) { places ->
-            weatherFragmentViewPager2Adapter.placeFragmentList = places
+            weatherFragmentViewPager2Adapter.placeList = places
             Log.d("lxl", "ActivityViewPage2变化了")
             weatherFragmentViewPager2Adapter.notifyDataSetChanged()
         }
@@ -72,7 +72,7 @@ class WeatherActivity : AppCompatActivity() {
         //页面切换时候执行的逻辑，主要是保存一下页面作为当前页面，此外
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                viewModel.saveSharedPreferencesPlace(weatherFragmentViewPager2Adapter.placeFragmentList[position])
+                viewModel.saveSharedPreferencesPlace(weatherFragmentViewPager2Adapter.placeList[position])
                 //这种方法用不了，我猜测是因为此时fragment还没创建好
 
                 //这样通知我的常用列表，数据变了，重新修改每一项的内容，把原来不是当前页的变为当前页
