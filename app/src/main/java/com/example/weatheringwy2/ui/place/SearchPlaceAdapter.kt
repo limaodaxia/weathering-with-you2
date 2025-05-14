@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatheringwy2.MainActivity
 import com.example.weatheringwy2.databinding.PlaceItemBinding
 import com.example.weatheringwy2.logic.Repository
 import com.example.weatheringwy2.logic.model.Place
 import com.example.weatheringwy2.ui.weather.WeatherActivity
 
 
-class SearchPlaceAdapter(private val fragment: SearchPlaceFragment, private val placeList: List<Place>):RecyclerView.Adapter<SearchPlaceAdapter.ViewHolder>() {
+class SearchPlaceAdapter(private val activity: SearchActivity, private val placeList: List<Place>):RecyclerView.Adapter<SearchPlaceAdapter.ViewHolder>() {
 
     private lateinit var binding: PlaceItemBinding
 
@@ -26,28 +25,24 @@ class SearchPlaceAdapter(private val fragment: SearchPlaceFragment, private val 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // fragment.activity==parent.context
-
         binding = PlaceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = ViewHolder(binding)
-        val activity = fragment.activity
+
         // 第一次的时候不显示添加按钮
-        if (activity is MainActivity){
+        if (activity.viewModel.isSharedPreferencesPlaceSaved()){
             holder.addBtn.visibility = View.GONE
             holder.itemView.setOnClickListener {
                 val position = holder.adapterPosition
                 val place = placeList[position]
                 val intent = Intent(parent.context, WeatherActivity::class.java)
                 Repository.insertMyPlace(place)
-                fragment.viewModel.saveSharedPreferencesPlace(place)
+                activity.viewModel.saveSharedPreferencesPlace(place)
                 //原来我们之前创建的参数这里用到了
-                fragment.startActivity(intent)
+                activity.startActivity(intent)
 //               fragment.activity?.finish()//这里把mainActivity关掉了，同时fragment也没了
-                activity?.finish()//这里把mainActivity关掉了，因为上面获取过了activity，所以现在这里不需要在获取，直接调用
+                activity.finish()//这里把mainActivity关掉了，因为上面获取过了activity，所以现在这里不需要在获取，直接调用
 
             }
-
-        }else{//SearchActivity
 
         }
         return holder

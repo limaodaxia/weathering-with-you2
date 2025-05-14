@@ -10,11 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatheringwy2.R
-import com.example.weatheringwy2.databinding.ActivityMainBinding
 import com.example.weatheringwy2.databinding.FragmentMyPlaceBinding
-import com.example.weatheringwy2.ui.weather.WeatherActivity
-
 
 class MyPlaceFragment:Fragment() {
 
@@ -45,6 +41,7 @@ class MyPlaceFragment:Fragment() {
 
         binding.addPlaceButton.setOnClickListener {
             val intent = Intent(context, SearchActivity::class.java)
+            intent.putExtra("from", "MyPlaceFragment")
             startActivity(intent)
         }
 
