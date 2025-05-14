@@ -7,10 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.example.weatheringwy2.logic.Repository
 import com.example.weatheringwy2.logic.model.Location
-import kotlin.reflect.typeOf
 
 //现在把其指定给WeatherFragment了
-class WeatherViewModel:ViewModel() {
+class WeatherFragmentViewModel:ViewModel() {
 
     private val locationLiveData = MutableLiveData<Location>()
 

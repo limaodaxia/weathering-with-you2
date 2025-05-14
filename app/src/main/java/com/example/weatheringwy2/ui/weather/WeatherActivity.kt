@@ -21,7 +21,7 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherBinding
 
     val viewModel by lazy { ViewModelProvider(this).get(MyPlaceViewModel::class.java) }
-    lateinit var placeFragmentViewPager2Adapter : PlaceFragmentViewPager2Adapter
+    lateinit var weatherFragmentViewPager2Adapter : WeatherFragmentViewPager2Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,8 @@ class WeatherActivity : AppCompatActivity() {
 //                View.SYSTEM_UI_FLAG_LAYOUT_STABLE // 让系统的Activity延展到状态栏，但这时状态栏应该还是盖住了activity
         window.statusBarColor = Color.TRANSPARENT // 让状态栏透明
         // 还需要让xml设置android:fitsSystemWindows="true"，让页面往下padding一点
-        enableEdgeToEdge(); // 实现沉浸式布局2
+        enableEdgeToEdge(); // 实现沉浸式布局2, 效果等价实现沉浸式布局1
+        // 设置view的padding，让状态栏和activity的内容不重叠
 //        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 //            v.setPadding(
@@ -49,22 +50,22 @@ class WeatherActivity : AppCompatActivity() {
 
         //给ViewPager需要的一些东西初始化
         val placeFragmentList = ArrayList<Place>()
-        placeFragmentViewPager2Adapter = PlaceFragmentViewPager2Adapter(placeFragmentList,this)
-        binding.viewPager.adapter = placeFragmentViewPager2Adapter
+        weatherFragmentViewPager2Adapter = WeatherFragmentViewPager2Adapter(placeFragmentList,this)
+        binding.viewPager.adapter = weatherFragmentViewPager2Adapter
         binding.viewPager.offscreenPageLimit = 1
 
         //观察数据库中的所有元素，如果变化了，我们对应更改我们的Fragment，实际上这里存在一些问题，就是增删与我们的实际情况不符
         viewModel.refreshResult.observe(this) { places ->
             viewModel.myPlaceList.clear()
             viewModel.myPlaceList.addAll(places)
-            placeFragmentViewPager2Adapter.placeFragmentList = places
-            Log.d("lxl", "${placeFragmentViewPager2Adapter.idSet}")
+            weatherFragmentViewPager2Adapter.placeFragmentList = places
+            Log.d("lxl", "${weatherFragmentViewPager2Adapter.idSet}")
 //            for (place in places) {
 //                Log.d("lxl", "place:${place}")
 //                placeFragmentList.add(place)
 //            }
 
-            placeFragmentViewPager2Adapter.notifyDataSetChanged()
+            weatherFragmentViewPager2Adapter.notifyDataSetChanged()
         }
 
         //刷新一下，让myPlaceList中有数据,进而更新各个fragment
@@ -78,7 +79,7 @@ class WeatherActivity : AppCompatActivity() {
         //页面切换时候执行的逻辑，主要是保存一下页面作为当前页面，此外
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                viewModel.saveSharedPreferencesPlace(placeFragmentViewPager2Adapter.placeFragmentList[position])
+                viewModel.saveSharedPreferencesPlace(weatherFragmentViewPager2Adapter.placeFragmentList[position])
                 //这种方法用不了，我猜测是因为此时fragment还没创建好
 
                 //这样通知我的常用列表，数据变了，重新修改每一项的内容，把原来不是当前页的变为当前页

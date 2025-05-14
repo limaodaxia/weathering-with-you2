@@ -2,7 +2,6 @@ package com.example.weatheringwy2.ui.weather
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +20,10 @@ import com.example.weatheringwy2.WeatheringWY2Application
 import com.example.weatheringwy2.databinding.FragmentWeatherBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.lifecycle.Observer
 
 class WeatherFragment(val place: Place):Fragment() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(WeatherFragmentViewModel::class.java) }
 
     private lateinit var binding: FragmentWeatherBinding
 
