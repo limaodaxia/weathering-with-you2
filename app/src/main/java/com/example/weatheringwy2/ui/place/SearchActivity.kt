@@ -3,6 +3,8 @@ package com.example.weatheringwy2.ui.place
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -44,15 +46,10 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchPlaceEdit.addTextChangedListener{
                 editable ->
-            val content = editable.toString()
-            if (content.isNotEmpty()){
-                viewModel.searchPlaces(content)
-            }else{
-                binding.recyclerView.visibility = View.GONE
-                binding.bgImageView.visibility = View.VISIBLE
-                viewModel.placeList.clear()
-                adapter.notifyDataSetChanged()
-            }
+            // 移除之前的 Runnable
+            searchHandler.removeCallbacks(searchRunnable)
+            // 延迟 300ms 后执行搜索
+            searchHandler.postDelayed(searchRunnable, 500)
         }
 
         /*observe里用placeLiveData的Result<List<Place>>*/
@@ -67,6 +64,21 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
+            }
+        }
+    }
+
+    private val searchHandler = Handler(Looper.getMainLooper())
+    private var searchRunnable = object : Runnable {
+        override fun run() {
+            val content = binding.searchPlaceEdit.text.toString()
+            if (content.isNotEmpty()) {
+                viewModel.searchPlaces(content)
+            } else {
+                binding.recyclerView.visibility = View.GONE
+                binding.bgImageView.visibility = View.VISIBLE
+                viewModel.placeList.clear()
+                adapter.notifyDataSetChanged()
             }
         }
     }
