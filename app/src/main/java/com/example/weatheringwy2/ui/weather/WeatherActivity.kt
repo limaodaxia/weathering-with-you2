@@ -56,15 +56,8 @@ class WeatherActivity : AppCompatActivity() {
 
         //观察数据库中的所有元素，如果变化了，我们对应更改我们的Fragment，实际上这里存在一些问题，就是增删与我们的实际情况不符
         viewModel.refreshResult.observe(this) { places ->
-            viewModel.myPlaceList.clear()
-            viewModel.myPlaceList.addAll(places)
             weatherFragmentViewPager2Adapter.placeFragmentList = places
-            Log.d("lxl", "${weatherFragmentViewPager2Adapter.idSet}")
-//            for (place in places) {
-//                Log.d("lxl", "place:${place}")
-//                placeFragmentList.add(place)
-//            }
-
+            Log.d("lxl", "ActivityViewPage2变化了")
             weatherFragmentViewPager2Adapter.notifyDataSetChanged()
         }
 

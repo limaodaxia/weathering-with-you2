@@ -2,6 +2,7 @@ package com.example.weatheringwy2.ui.place
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class MyPlaceFragment:Fragment() {
 
     private lateinit var binding: FragmentMyPlaceBinding
     //此时并没有赋值，而是第一次加载时候赋值
-    val viewModel by lazy { ViewModelProvider(this).get(MyPlaceViewModel::class.java) }
+    val viewModel by lazy { ViewModelProvider(requireActivity()).get(MyPlaceViewModel::class.java) }
 
     private lateinit var adapter: MyPlaceAdapter
 
@@ -29,7 +30,7 @@ class MyPlaceFragment:Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMyPlaceBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,7 +40,7 @@ class MyPlaceFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager = layoutManager
-        adapter = MyPlaceAdapter(this,viewModel.myPlaceList)
+        adapter = MyPlaceAdapter(this, viewModel.myPlaceList)
         binding.recyclerView.adapter = adapter
 
         binding.addPlaceButton.setOnClickListener {
@@ -47,15 +48,17 @@ class MyPlaceFragment:Fragment() {
             startActivity(intent)
         }
 
-        viewModel.loadAllMyPlaces().observe(viewLifecycleOwner/*这里换一下*/, Observer { places->
+        viewModel.refreshResult.observe(viewLifecycleOwner/*这里是Fragment特有的一个生命周期*/, Observer { places->
             if(places!=null){
+                Log.d("lxl", "MyPlaceFragment的RecyclerView变化了")
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.bgImageView.visibility = View.GONE
                 viewModel.myPlaceList.clear()
                 viewModel.myPlaceList.addAll(places)
                 adapter.notifyDataSetChanged()
-                val c = activity as WeatherActivity
-                c.viewModel.refresh()
+            }else{
+                binding.recyclerView.visibility = View.GONE
+                binding.bgImageView.visibility = View.VISIBLE
             }
         })
     }
