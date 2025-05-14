@@ -29,7 +29,7 @@ class SearchPlaceAdapter(private val activity: SearchActivity, private val place
         val holder = ViewHolder(binding)
 
         // 第一次的时候不显示添加按钮
-        if (activity.viewModel.isSharedPreferencesPlaceSaved()){
+        if (!activity.viewModel.isSharedPreferencesPlaceSaved()){
             holder.addBtn.visibility = View.GONE
             holder.itemView.setOnClickListener {
                 val position = holder.adapterPosition
