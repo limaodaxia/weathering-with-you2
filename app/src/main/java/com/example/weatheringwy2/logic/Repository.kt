@@ -23,10 +23,8 @@ object Repository {
     //数据库
     private val placeDao = MyPlaceDatabase.getDatabase(WeatheringWY2Application.context).placeDao()
 
-    private val myPlaceLiveData:LiveData<List<Place>> = placeDao.loadAllMyPlace()
-
     fun loadAllMyPlaces():LiveData<List<Place>>{
-        return myPlaceLiveData
+        return placeDao.loadAllMyPlace()
     }
 
     fun insertMyPlace(place: Place){
