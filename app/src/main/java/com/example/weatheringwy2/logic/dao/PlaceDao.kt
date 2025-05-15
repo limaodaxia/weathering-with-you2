@@ -25,24 +25,4 @@ interface PlaceDao {
 
     @Delete
     fun deleteMyPlace(place: Place)
-
-    //sharedPreference
-    companion object{
-        fun saveSharedPreferencesPlace(place: Place){
-            sharedPreferences().edit {
-                putString("place",Gson().toJson(place))
-            }
-        }
-
-        fun getSharedPreferencesPlace(): Place {
-            val placeJson =  sharedPreferences().getString("place","")
-            return Gson().fromJson(placeJson, Place::class.java)
-        }
-
-        fun isSharedPreferencesPlaceSaved() = sharedPreferences().contains("place")
-
-        private  fun sharedPreferences() = WeatheringWY2Application.context
-                .getSharedPreferences("weathering_with_you"/*指定存放的文件名*/,Context.MODE_PRIVATE)
-
-    }
 }

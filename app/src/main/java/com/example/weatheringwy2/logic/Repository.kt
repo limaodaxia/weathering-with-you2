@@ -1,7 +1,9 @@
 package com.example.weatheringwy2.logic
 
 
+import android.content.Context
 import android.util.Log
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.weatheringwy2.WeatheringWY2Application
@@ -10,6 +12,7 @@ import com.example.weatheringwy2.logic.dao.PlaceDao
 import com.example.weatheringwy2.logic.model.Place
 import com.example.weatheringwy2.logic.model.Weather
 import com.example.weatheringwy2.logic.network.WeatheringWYNetwork
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -44,12 +47,21 @@ object Repository {
     }
 
     //sharedPreference
-    fun saveSharedPreferencesPlace(place: Place) = PlaceDao.saveSharedPreferencesPlace(place)
+    fun saveSharedPreferencesPlace(place: Place){
+        sharedPreferences().edit {
+            putString("place", Gson().toJson(place))
+        }
+    }
 
-    fun getSharedPreferencesPlace() = PlaceDao.getSharedPreferencesPlace()
+    fun getSharedPreferencesPlace(): Place {
+        val placeJson =  sharedPreferences().getString("place","")
+        return Gson().fromJson(placeJson, Place::class.java)
+    }
 
-    fun isSharedPreferencesPlaceSaved() = PlaceDao.isSharedPreferencesPlaceSaved()
+    fun isSharedPreferencesPlaceSaved() = sharedPreferences().contains("place")
 
+    private fun sharedPreferences() = WeatheringWY2Application.context
+        .getSharedPreferences("weathering_with_you"/*指定存放的文件名*/, Context.MODE_PRIVATE)
 
 
     //网络端

@@ -16,7 +16,7 @@ class MyPlaceFragment:Fragment() {
 
     private lateinit var binding: FragmentMyPlaceBinding
     //此时并没有赋值，而是第一次加载时候赋值
-    val viewModel by lazy { ViewModelProvider(requireActivity()).get(MyPlaceViewModel::class.java) }
+    val viewModel by lazy { ViewModelProvider(requireActivity())[MyPlaceViewModel::class.java] }
 
     private lateinit var adapter: MyPlaceAdapter
 

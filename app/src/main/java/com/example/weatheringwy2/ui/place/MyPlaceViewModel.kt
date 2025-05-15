@@ -25,7 +25,7 @@ class MyPlaceViewModel:ViewModel() {
         loadAllMyPlaces()
     }
 
-    fun loadAllMyPlaces(): LiveData<List<Place>> {
+    private fun loadAllMyPlaces(): LiveData<List<Place>> {
         return Repository.loadAllMyPlaces()
     }
 
